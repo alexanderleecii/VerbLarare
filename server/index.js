@@ -2,7 +2,7 @@ require("dotenv").config()
 const path = require("path")
 const express = require("express")
 const app = express()
-const port = 8080
+const port = process.env.PORT || 8080
 
 // where ever the built package is
 const buildFolder = "../client/build"
