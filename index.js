@@ -5,7 +5,7 @@ const app = express()
 const port = process.env.PORT || 8080
 
 // where ever the built package is
-const buildFolder = "../client/build"
+const buildFolder = "./client/build"
 // load the value in the server
 const { REACT_APP_SERVER_URL } = process.env
 // treat the index.html as a template and substitute the value
