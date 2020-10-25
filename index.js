@@ -30,4 +30,4 @@ app.use("/lists", listsRoutes)
 
 //app.use("/app", express.static("../client/build"))
 
-app.listen(port)
+app.listen(port, "0.0.0.0")
