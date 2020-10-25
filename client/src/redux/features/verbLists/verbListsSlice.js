@@ -80,7 +80,7 @@ export const fetchLists = () => {
 
         try {
             // eslint-disable-next-line no-undef
-            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}lists/getAllLists`)
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/lists/getAllLists`)
             const data = await response.json()
 
             dispatch(getListsSuccess(data))
