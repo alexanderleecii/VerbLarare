@@ -1,0 +1,24 @@
+.App {
+  text-align: center;
+}
+
+.main-container {
+  width: 90%;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#nav-import {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+}
+
+#nav-play {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+}

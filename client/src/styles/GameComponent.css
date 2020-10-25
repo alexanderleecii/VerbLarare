@@ -1,0 +1,14 @@
+.displayed-verb {
+    font-size: 55px;
+}
+
+.textfield-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 20px 0;
+}
+
+#end-screen {
+    font-size: 65px;
+}

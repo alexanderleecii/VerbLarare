@@ -1,0 +1,7 @@
+#list-picker-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 20%;
+    margin: auto;
+}
