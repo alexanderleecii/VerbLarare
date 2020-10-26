@@ -75,12 +75,14 @@ export const { getLists, getListsSuccess, getListsFailure, addList } = verbLists
 
 // Asynchronous thunk action
 export const fetchLists = () => {
+    // eslint-disable-next-line no-undef
+    const serverURL = process.env.NODE_ENV === "development" ? process.env.REACT_APP_SERVER_URL : ""
     return async (dispatch) => {
         dispatch(getLists())
 
         try {
             // eslint-disable-next-line no-undef
-            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/lists/getAllLists`)
+            const response = await fetch(`${serverURL}/lists/getAllLists`)
             const data = await response.json()
 
             dispatch(getListsSuccess(data))
