@@ -6,9 +6,9 @@ const jsonParser = bodyParser.json()
 const dbManager = require("../db")
 
 const getAll = async (req, res) => {
-    const client = dbManager.get()
+    const client = await dbManager.get()
     try {
-        await client.connect()
+        //await client.connect()
 
         const database = client.db("verblists")
         const collection = await database.collection("lists")
@@ -46,7 +46,7 @@ const getById = async (req, res) => {
 const createList = async (req, res) => {
     const client = dbManager.get()
     try {
-        await client.connect()
+        //await client.connect()
 
         const database = client.db("verblists")
         const collection = await database.collection("lists")

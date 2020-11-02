@@ -9,10 +9,11 @@ const state = {
     client: null,
 }
 
-exports.get = () => {
+exports.get = async () => {
     if (state.client) return state.client
     //state.client = new MongoClient(process.env.DB_URL + "?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
-    const conn = mongoose.createConnection(process.env.DB_URL + "?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
+    await mongoose.connect(process.env.DB_URL + "?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
+    const conn = mongoose.connection
     state.client = conn.getClient()
     return state.client
 }
