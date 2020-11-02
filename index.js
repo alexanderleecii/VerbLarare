@@ -20,9 +20,6 @@ app.get("/app", function(req, res) {
   res.render("index.html", { REACT_APP_SERVER_URL })
 })
 
-// MongoDB connection
-const db = require("./db")
-
 //Routing
 const listsRoutes = require("./routes/lists")
 
