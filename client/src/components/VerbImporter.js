@@ -140,6 +140,7 @@ export class VerbImporter extends React.Component {
                             variant="filled"
                             value={this.state.listName}
                             onChange={(e) => this.setState({ listName: e.currentTarget.value })}
+                            autoComplete="off"
                         />
                         <Button variant="contained" onClick={this.handleNewList}>
                             Add

@@ -1,14 +1,46 @@
+#game-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
 .displayed-verb {
     font-size: 55px;
 }
 
-.textfield-area {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    margin: 20px 0;
+.disabled-verb {
+    line-height: 56px;
+    font-size: 25px;
+    color: #343434;
 }
 
 #end-screen {
     font-size: 65px;
+}
+
+@media screen and (min-width: 500px) {
+    .textfield-area {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin: 20px 0;
+        height: 100px;
+    }
+
+    .textfield-container {
+        width: 20%;
+    }
+}
+
+@media screen and (max-width: 499px) {
+    .textfield-area {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        margin: 20px 0 0 0;
+    }
+
+    .textfield-container {
+        margin: 20px 0;
+    }
 }

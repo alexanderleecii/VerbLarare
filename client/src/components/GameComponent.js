@@ -101,12 +101,14 @@ export class GameComponent extends React.Component {
 
     displayGame = () => {
         return (
-            <div>
-                <div>English verb:</div>
-                <div className="displayed-verb">{this.props.dictionnary[this.state.index].translation}</div>
+            <div id="game-container">
+                <div className="game-header">
+                    <div>English verb:</div>
+                    <div className="displayed-verb">{this.props.dictionnary[this.state.index].translation}</div>
+                </div>
                 <div className="form">
                     <div className="textfield-area">
-                        <div>
+                        <div className="textfield-container">
                             <div>Infinitiv</div>
                             <TextField
                                 error={this.state.field1Error}
@@ -115,9 +117,10 @@ export class GameComponent extends React.Component {
                                 variant="filled"
                                 value={this.state.field1}
                                 onChange={(e) => this.setState({ field1: e.currentTarget.value })}
+                                autoComplete="off"
                             />
                         </div>
-                        <div>
+                        <div className="textfield-container">
                             <div>Presens</div>
                             <TextField
                                 error={this.state.field2Error}
@@ -126,10 +129,11 @@ export class GameComponent extends React.Component {
                                 variant="filled"
                                 value={this.state.field2}
                                 onChange={(e) => this.setState({ field2: e.currentTarget.value })}
+                                autoComplete="off"
                             />
                         </div>
                         {this.props.level > 1 ? (
-                            <div>
+                            <div className="textfield-container">
                                 <div>Preteritum</div>
                                 <TextField
                                     error={this.state.field3Error}
@@ -138,14 +142,20 @@ export class GameComponent extends React.Component {
                                     variant="filled"
                                     value={this.state.field3}
                                     onChange={(e) => this.setState({ field3: e.currentTarget.value })}
+                                    autoComplete="off"
                                 />
                             </div>
                         ) : (
-                            <div>{this.props.dictionnary[this.state.index].conjugation.pret}</div>
+                            <div className="disabled-verb-container">
+                                <div>Preteritum</div>
+                                <div className="disabled-verb">
+                                    {this.props.dictionnary[this.state.index].conjugation.pret}
+                                </div>
+                            </div>
                         )}
 
                         {this.props.level > 2 ? (
-                            <div>
+                            <div className="textfield-container">
                                 <div>Supinum</div>
                                 <TextField
                                     error={this.state.field4Error}
@@ -154,14 +164,20 @@ export class GameComponent extends React.Component {
                                     variant="filled"
                                     value={this.state.field4}
                                     onChange={(e) => this.setState({ field4: e.currentTarget.value })}
+                                    autoComplete="off"
                                 />
                             </div>
                         ) : (
-                            <div>{this.props.dictionnary[this.state.index].conjugation.sup}</div>
+                            <div className="disabled-verb-container">
+                                <div>Supinum</div>
+                                <div className="disabled-verb">
+                                    {this.props.dictionnary[this.state.index].conjugation.sup}
+                                </div>
+                            </div>
                         )}
 
                         {this.props.level > 2 ? (
-                            <div>
+                            <div className="textfield-container">
                                 <div>Imperative</div>
                                 <TextField
                                     error={this.state.field5Error}
@@ -170,10 +186,16 @@ export class GameComponent extends React.Component {
                                     variant="filled"
                                     value={this.state.field5}
                                     onChange={(e) => this.setState({ field5: e.currentTarget.value })}
+                                    autoComplete="off"
                                 />
                             </div>
                         ) : (
-                            <div>{this.props.dictionnary[this.state.index].conjugation.imp}</div>
+                            <div className="disabled-verb-container">
+                                <div>Imperative</div>
+                                <div className="disabled-verb">
+                                    {this.props.dictionnary[this.state.index].conjugation.imp}
+                                </div>
+                            </div>
                         )}
                     </div>
                     <div>

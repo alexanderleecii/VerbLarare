@@ -50,20 +50,22 @@ export class App extends React.Component {
     render() {
         return (
             <div className="App">
-                {this.state.mainView !== Views.IMPORTER ? (
-                    <div id="nav-import">
-                        <Button variant="contained" onClick={() => this.setState({ mainView: Views.IMPORTER })}>
-                            Import verb list
-                        </Button>
-                    </div>
-                ) : null}
-                {this.state.mainView !== Views.LIST_PICKER ? (
-                    <div id="nav-play">
-                        <Button variant="contained" onClick={() => this.setState({ mainView: Views.LIST_PICKER })}>
-                            {this.state.mainView !== Views.IMPORTER ? "Restart" : "Play"}
-                        </Button>
-                    </div>
-                ) : null}
+                <div id="app-header">
+                    {this.state.mainView !== Views.IMPORTER ? (
+                        <div id="nav-import">
+                            <Button variant="contained" onClick={() => this.setState({ mainView: Views.IMPORTER })}>
+                                Import verb list
+                            </Button>
+                        </div>
+                    ) : null}
+                    {this.state.mainView !== Views.LIST_PICKER ? (
+                        <div id="nav-play">
+                            <Button variant="contained" onClick={() => this.setState({ mainView: Views.LIST_PICKER })}>
+                                {this.state.mainView !== Views.IMPORTER ? "Restart" : "Play"}
+                            </Button>
+                        </div>
+                    ) : null}
+                </div>
                 {this.displayMainContainer()}
             </div>
         )
