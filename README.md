@@ -1,4 +1,5 @@
-Small React app to help learn swedish verbs.
+# "Hej hej"!
 
-### Start server
-npm start (opens server on port 8080 and serves the app on /app)
+VerbLärare is a small React app I'm building to help myself learn swedish verbs.
+
+Click [here](https://verb-larare.herokuapp.com/app) to check it out !
