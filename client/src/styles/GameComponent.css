@@ -14,6 +14,10 @@
     color: #343434;
 }
 
+#progress-bar-container {
+    margin-bottom: 30px;
+}
+
 #end-screen {
     font-size: 65px;
 }
@@ -30,6 +34,13 @@
     .textfield-container {
         width: 20%;
     }
+
+    #progress-bar {
+        height: 10px;
+        border-radius: 5px;
+        width: 50%;
+        margin: 10px auto;
+    }
 }
 
 @media screen and (max-width: 499px) {
@@ -42,5 +53,12 @@
 
     .textfield-container {
         margin: 20px 0;
+    }
+
+    #progress-bar {
+        height: 10px;
+        border-radius: 5px;
+        width: 70%;
+        margin: 10px auto;
     }
 }

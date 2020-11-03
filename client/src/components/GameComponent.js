@@ -2,12 +2,14 @@ import React from "react"
 import PropTypes from "prop-types"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
+import LinearProgress from "@material-ui/core/LinearProgress"
 import "../styles/GameComponent.css"
 
 export class GameComponent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            loadedDictionnary: this.props.dictionnary,
             index: 0,
             field1: "",
             field1Error: false,
@@ -22,6 +24,16 @@ export class GameComponent extends React.Component {
         }
 
         this.handleValidation = this.handleValidation.bind(this)
+    }
+
+    componentDidMount = () => {
+        this.setState({
+            index: this.randomIndex(),
+        })
+    }
+
+    randomIndex = () => {
+        return Math.floor(Math.random() * this.state.loadedDictionnary.length)
     }
 
     handleValidation = () => {
@@ -41,8 +53,11 @@ export class GameComponent extends React.Component {
                         field2Error: field2Error,
                     })
                 } else {
+                    const tmp = [...this.state.loadedDictionnary]
+                    tmp.splice(index, 1)
                     this.setState({
-                        index: index + 1,
+                        loadedDictionnary: tmp,
+                        index: this.randomIndex(),
                         field1: "",
                         field1Error: false,
                         field2: "",
@@ -58,8 +73,11 @@ export class GameComponent extends React.Component {
                         field3Error: field3Error,
                     })
                 } else {
+                    const tmp = [...this.state.loadedDictionnary]
+                    tmp.splice(index, 1)
                     this.setState({
-                        index: index + 1,
+                        loadedDictionnary: tmp,
+                        index: this.randomIndex(),
                         field1: "",
                         field1Error: false,
                         field2: "",
@@ -79,8 +97,11 @@ export class GameComponent extends React.Component {
                         field5Error: field5Error,
                     })
                 } else {
+                    const tmp = [...this.state.loadedDictionnary]
+                    tmp.splice(index, 1)
                     this.setState({
-                        index: index + 1,
+                        loadedDictionnary: tmp,
+                        index: this.randomIndex(),
                         field1: "",
                         field1Error: false,
                         field2: "",
@@ -102,14 +123,25 @@ export class GameComponent extends React.Component {
     displayGame = () => {
         return (
             <div id="game-container">
+                <div id="progress-bar-container">
+                    <div className="text-level3">Progress</div>
+                    <LinearProgress
+                        id="progress-bar"
+                        variant="determinate"
+                        value={
+                            (100 * (this.props.dictionnary.length - this.state.loadedDictionnary.length)) /
+                            this.props.dictionnary.length
+                        }
+                    />
+                </div>
                 <div className="game-header">
-                    <div>English verb:</div>
+                    <div className="text-level2">Translation:</div>
                     <div className="displayed-verb">{this.props.dictionnary[this.state.index].translation}</div>
                 </div>
                 <div className="form">
                     <div className="textfield-area">
                         <div className="textfield-container">
-                            <div>Infinitiv</div>
+                            <div className="text-level3">Infinitiv</div>
                             <TextField
                                 error={this.state.field1Error}
                                 id="filled-basic"
@@ -121,7 +153,7 @@ export class GameComponent extends React.Component {
                             />
                         </div>
                         <div className="textfield-container">
-                            <div>Presens</div>
+                            <div className="text-level3">Presens</div>
                             <TextField
                                 error={this.state.field2Error}
                                 id="filled-basic"
@@ -134,7 +166,7 @@ export class GameComponent extends React.Component {
                         </div>
                         {this.props.level > 1 ? (
                             <div className="textfield-container">
-                                <div>Preteritum</div>
+                                <div className="text-level3">Preteritum</div>
                                 <TextField
                                     error={this.state.field3Error}
                                     id="filled-basic"
@@ -147,7 +179,7 @@ export class GameComponent extends React.Component {
                             </div>
                         ) : (
                             <div className="disabled-verb-container">
-                                <div>Preteritum</div>
+                                <div className="text-level3">Preteritum</div>
                                 <div className="disabled-verb">
                                     {this.props.dictionnary[this.state.index].conjugation.pret}
                                 </div>
@@ -156,7 +188,7 @@ export class GameComponent extends React.Component {
 
                         {this.props.level > 2 ? (
                             <div className="textfield-container">
-                                <div>Supinum</div>
+                                <div className="text-level3">Supinum</div>
                                 <TextField
                                     error={this.state.field4Error}
                                     id="filled-basic"
@@ -169,7 +201,7 @@ export class GameComponent extends React.Component {
                             </div>
                         ) : (
                             <div className="disabled-verb-container">
-                                <div>Supinum</div>
+                                <div className="text-level3">Supinum</div>
                                 <div className="disabled-verb">
                                     {this.props.dictionnary[this.state.index].conjugation.sup}
                                 </div>
@@ -178,7 +210,7 @@ export class GameComponent extends React.Component {
 
                         {this.props.level > 2 ? (
                             <div className="textfield-container">
-                                <div>Imperative</div>
+                                <div className="text-level3">Imperative</div>
                                 <TextField
                                     error={this.state.field5Error}
                                     id="filled-basic"
@@ -191,18 +223,12 @@ export class GameComponent extends React.Component {
                             </div>
                         ) : (
                             <div className="disabled-verb-container">
-                                <div>Imperative</div>
+                                <div className="text-level3">Imperative</div>
                                 <div className="disabled-verb">
                                     {this.props.dictionnary[this.state.index].conjugation.imp}
                                 </div>
                             </div>
                         )}
-                    </div>
-                    <div>
-                        <div>Progress</div>
-                        <div>
-                            {this.state.index} / {this.props.dictionnary.length}
-                        </div>
                     </div>
                     <Button variant="contained" onClick={this.handleValidation} disableElevation>
                         Next
