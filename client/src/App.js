@@ -1,26 +1,46 @@
 import React from "react"
+import { connect } from "react-redux"
+import PropTypes from "prop-types"
 import ListPicker from "./components/ListPicker"
 import LevelPicker from "./components/LevelPicker"
+import GamePicker from "./components/GamePicker"
 import GameComponent from "./components/GameComponent"
 import VerbImporter from "./components/VerbImporter"
 import Button from "@material-ui/core/Button"
 import { Views } from "./enums/viewEnums"
+import { fetchLists } from "./redux/features/verbLists/verbListsSlice"
+import { fetchGames } from "./redux/features/games/gamesSlice"
 import "./styles/App.css"
 
 export class App extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             mainView: Views.LIST_PICKER,
             level: 1,
-            dictionnary: null,
+            initDictionnary: null,
+            currentDictionnary: null,
+        }
+    }
+
+    componentDidMount = async () => {
+        await this.props.fetchGames()
+        if (this.props.games.length > 0) {
+            this.setState({
+                mainView: Views.GAME_PICKER,
+            })
+        } else {
+            this.setState({
+                mainView: Views.LIST_PICKER,
+            })
         }
     }
 
     chooseDictionnary = (dict) => {
         this.setState({
             mainView: Views.LEVEL_PICKER,
-            dictionnary: dict,
+            initDictionnary: dict,
+            currentDictionnary: dict.dictionnary,
         })
     }
 
@@ -31,14 +51,38 @@ export class App extends React.Component {
         })
     }
 
+    chooseGame = async (game) => {
+        await this.props.fetchLists()
+        const initDictionnary = this.props.verbLists.find((item) => item._id === game.init_dictionnary_id)
+        if (initDictionnary) {
+            this.setState({
+                mainView: Views.LEVEL_PICKER,
+                initDictionnary: initDictionnary,
+                currentDictionnary: game.current_dictionnary,
+            })
+        } else {
+            this.setState({
+                mainView: Views.LIST_PICKER,
+            })
+        }
+    }
+
     displayMainContainer = () => {
         switch (this.state.mainView) {
             case Views.LIST_PICKER:
                 return <ListPicker onNext={this.chooseDictionnary} />
+            case Views.GAME_PICKER:
+                return <GamePicker onNext={this.chooseGame} />
             case Views.LEVEL_PICKER:
                 return <LevelPicker onNext={this.chooseLevel} />
             case Views.GAME:
-                return <GameComponent dictionnary={this.state.dictionnary} level={this.state.level} />
+                return (
+                    <GameComponent
+                        initDictionnary={this.state.initDictionnary}
+                        currentDictionnary={this.state.currentDictionnary}
+                        level={this.state.level}
+                    />
+                )
             case Views.IMPORTER:
                 return <VerbImporter />
             default:
@@ -60,7 +104,21 @@ export class App extends React.Component {
                     ) : null}
                     {this.state.mainView !== Views.LIST_PICKER ? (
                         <div id="nav-play">
-                            <Button variant="contained" onClick={() => this.setState({ mainView: Views.LIST_PICKER })}>
+                            <Button
+                                variant="contained"
+                                onClick={() => {
+                                    this.props.fetchGames()
+                                    if (this.props.games.length > 0) {
+                                        this.setState({
+                                            mainView: Views.GAME_PICKER,
+                                        })
+                                    } else {
+                                        this.setState({
+                                            mainView: Views.LIST_PICKER,
+                                        })
+                                    }
+                                }}
+                            >
                                 {this.state.mainView !== Views.IMPORTER ? "Restart" : "Play"}
                             </Button>
                         </div>
@@ -72,4 +130,22 @@ export class App extends React.Component {
     }
 }
 
-export default App
+App.propTypes = {
+    // Redux
+    games: PropTypes.array,
+    fetchGames: PropTypes.func,
+    fetchLists: PropTypes.func,
+    verbLists: PropTypes.array,
+}
+
+const mapStateToProps = (state) => ({
+    games: state.games.games,
+    verbLists: state.verbLists.lists,
+})
+
+const mapDispatchToProps = {
+    fetchGames,
+    fetchLists,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

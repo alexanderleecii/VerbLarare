@@ -2,27 +2,27 @@ import React from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import Button from "@material-ui/core/Button"
-import { fetchLists } from "../redux/features/verbLists/verbListsSlice"
-import "../styles/ListPicker.css"
+import { fetchGames } from "../redux/features/games/gamesSlice"
+import "../styles/GamePicker.css"
 
-export class ListPicker extends React.Component {
+export class GamePicker extends React.Component {
     constructor(props) {
         super(props)
-        this.props.fetchLists()
+        this.props.fetchGames()
     }
     render() {
         return (
             <div className="main-container">
-                <div>Select a list of verbs below:</div>
+                <div>Load your progress from one of the games below:</div>
                 <div id="list-picker-buttons">
-                    {this.props.verbLists.map((item) => (
+                    {this.props.games.map((item) => (
                         <Button
                             key={item.id}
                             variant="contained"
                             onClick={() => this.props.onNext(item)}
                             disableElevation
                         >
-                            {item.title}
+                            {item.id}
                         </Button>
                     ))}
                 </div>
@@ -31,19 +31,19 @@ export class ListPicker extends React.Component {
     }
 }
 
-ListPicker.propTypes = {
+GamePicker.propTypes = {
     onNext: PropTypes.func.isRequired,
     // Redux
-    verbLists: PropTypes.array,
-    fetchLists: PropTypes.func,
+    games: PropTypes.array,
+    fetchGames: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
-    verbLists: state.verbLists.lists,
+    games: state.games.games,
 })
 
 const mapDispatchToProps = {
-    fetchLists,
+    fetchGames,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListPicker)
+export default connect(mapStateToProps, mapDispatchToProps)(GamePicker)

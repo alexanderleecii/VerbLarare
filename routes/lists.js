@@ -20,7 +20,7 @@ const getAll = async (req, res) => {
 }
 
 const getById = async (req, res) => {
-    const client = dbManager.get()
+    const client = await dbManager.get()
     try {
         const database = client.db("verblists")
         const collection = await database.collection("lists")
@@ -34,7 +34,7 @@ const getById = async (req, res) => {
 }
 
 const createList = async (req, res) => {
-    const client = dbManager.get()
+    const client = await dbManager.get()
     try {
         const database = client.db("verblists")
         const collection = await database.collection("lists")

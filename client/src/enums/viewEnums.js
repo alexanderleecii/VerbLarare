@@ -1,5 +1,6 @@
 export const Views = {
     LIST_PICKER: "LIST_PICKER",
+    GAME_PICKER: "GAME_PICKER",
     LEVEL_PICKER: "LEVEL_PICKER",
     GAME: "GAME",
     IMPORTER: "IMPORTER",

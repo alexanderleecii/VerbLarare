@@ -1,47 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-// const dictionnary = [
-//     {
-//         key: "1",
-//         translation: "To do",
-//         conjugation: {
-//             inf: "göra",
-//             pres: "gör",
-//             pret: "gjorde",
-//             sup: "gjort",
-//             imp: "göra",
-//         },
-//     },
-//     {
-//         key: "2",
-//         translation: "To talk",
-//         conjugation: {
-//             inf: "prata",
-//             pres: "pratar",
-//             pret: "pratade",
-//             sup: "pratat",
-//             imp: "prata",
-//         },
-//     },
-//     {
-//         key: "3",
-//         translation: "To watch",
-//         conjugation: {
-//             inf: "titta",
-//             pres: "tittar",
-//             pret: "tittade",
-//             sup: "tittat",
-//             imp: "titta",
-//         },
-//     },
-// ]
-
-// const testList = {
-//     id: "19990905T154",
-//     title: "TestList",
-//     dictionnary: dictionnary,
-// }
-
 export const initialState = {
     loading: false,
     hasErrors: false,

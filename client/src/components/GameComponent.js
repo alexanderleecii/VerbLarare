@@ -3,13 +3,15 @@ import PropTypes from "prop-types"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
 import LinearProgress from "@material-ui/core/LinearProgress"
+import { connect } from "react-redux"
+import { saveGame, saveProgress } from "../redux/features/games/gamesSlice"
 import "../styles/GameComponent.css"
 
 export class GameComponent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            loadedDictionnary: this.props.dictionnary,
+            loadedDictionnary: JSON.parse(JSON.stringify(this.props.currentDictionnary)),
             index: 0,
             field1: "",
             field1Error: false,
@@ -37,7 +39,7 @@ export class GameComponent extends React.Component {
     }
 
     handleValidation = () => {
-        const { dictionnary } = this.props
+        const { dictionnary } = this.props.initDictionnary
         const { index, field1, field2, field3, field4, field5 } = this.state
         const field1Error = field1 !== dictionnary[index].conjugation.inf,
             field2Error = field2 !== dictionnary[index].conjugation.pres,
@@ -53,7 +55,7 @@ export class GameComponent extends React.Component {
                         field2Error: field2Error,
                     })
                 } else {
-                    const tmp = [...this.state.loadedDictionnary]
+                    const tmp = JSON.parse(JSON.stringify(this.state.loadedDictionnary))
                     tmp.splice(index, 1)
                     this.setState({
                         loadedDictionnary: tmp,
@@ -73,7 +75,7 @@ export class GameComponent extends React.Component {
                         field3Error: field3Error,
                     })
                 } else {
-                    const tmp = [...this.state.loadedDictionnary]
+                    const tmp = JSON.parse(JSON.stringify(this.state.loadedDictionnary))
                     tmp.splice(index, 1)
                     this.setState({
                         loadedDictionnary: tmp,
@@ -97,7 +99,7 @@ export class GameComponent extends React.Component {
                         field5Error: field5Error,
                     })
                 } else {
-                    const tmp = [...this.state.loadedDictionnary]
+                    const tmp = JSON.parse(JSON.stringify(this.state.loadedDictionnary))
                     tmp.splice(index, 1)
                     this.setState({
                         loadedDictionnary: tmp,
@@ -129,14 +131,30 @@ export class GameComponent extends React.Component {
                         id="progress-bar"
                         variant="determinate"
                         value={
-                            (100 * (this.props.dictionnary.length - this.state.loadedDictionnary.length)) /
-                            this.props.dictionnary.length
+                            (100 *
+                                (this.props.initDictionnary.dictionnary.length - this.state.loadedDictionnary.length)) /
+                            this.props.initDictionnary.dictionnary.length
                         }
                     />
+                    <Button
+                        variant="contained"
+                        onClick={() => {
+                            this.props.saveGame({
+                                id: new Date(Date.now()) + "dffs",
+                                init_dictionnary_id: this.props.initDictionnary._id,
+                                current_dictionnary: this.state.loadedDictionnary,
+                            })
+                        }}
+                        disableElevation
+                    >
+                        Save game
+                    </Button>
                 </div>
                 <div className="game-header">
                     <div className="text-level2">Translation:</div>
-                    <div className="displayed-verb">{this.props.dictionnary[this.state.index].translation}</div>
+                    <div className="displayed-verb">
+                        {this.props.initDictionnary.dictionnary[this.state.index].translation}
+                    </div>
                 </div>
                 <div className="form">
                     <div className="textfield-area">
@@ -181,7 +199,7 @@ export class GameComponent extends React.Component {
                             <div className="disabled-verb-container">
                                 <div className="text-level3">Preteritum</div>
                                 <div className="disabled-verb">
-                                    {this.props.dictionnary[this.state.index].conjugation.pret}
+                                    {this.props.initDictionnary.dictionnary[this.state.index].conjugation.pret}
                                 </div>
                             </div>
                         )}
@@ -203,7 +221,7 @@ export class GameComponent extends React.Component {
                             <div className="disabled-verb-container">
                                 <div className="text-level3">Supinum</div>
                                 <div className="disabled-verb">
-                                    {this.props.dictionnary[this.state.index].conjugation.sup}
+                                    {this.props.initDictionnary.dictionnary[this.state.index].conjugation.sup}
                                 </div>
                             </div>
                         )}
@@ -225,7 +243,7 @@ export class GameComponent extends React.Component {
                             <div className="disabled-verb-container">
                                 <div className="text-level3">Imperative</div>
                                 <div className="disabled-verb">
-                                    {this.props.dictionnary[this.state.index].conjugation.imp}
+                                    {this.props.initDictionnary.dictionnary[this.state.index].conjugation.imp}
                                 </div>
                             </div>
                         )}
@@ -241,7 +259,7 @@ export class GameComponent extends React.Component {
     render() {
         return (
             <div className="main-container">
-                {this.state.index < this.props.dictionnary.length ? (
+                {this.state.index < this.props.initDictionnary.dictionnary.length ? (
                     this.displayGame()
                 ) : (
                     <div id="end-screen">Bra jobbat!</div>
@@ -252,8 +270,16 @@ export class GameComponent extends React.Component {
 }
 
 GameComponent.propTypes = {
-    dictionnary: PropTypes.array.isRequired,
+    initDictionnary: PropTypes.object.isRequired,
+    currentDictionnary: PropTypes.array.isRequired,
     level: PropTypes.number.isRequired,
+    saveGame: PropTypes.func.isRequired,
+    saveProgress: PropTypes.func.isRequired,
 }
 
-export default GameComponent
+const mapDispatchToProps = {
+    saveGame,
+    saveProgress,
+}
+
+export default connect(null, mapDispatchToProps)(GameComponent)
